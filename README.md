@@ -2,6 +2,10 @@
 
 A [MiniQL](https://github.com/miniql/miniql) query resolver that loads data from CSV files.
 
+Any problems? Please log an issue on this repo.
+
+Love this? Please [star the repo](https://github.com/miniql/miniql) and [follow the developer on Twitter](https://twitter.com/ashleydavis75).
+
 ## Example
 
 Find a complete and working Node.js example of using MiniQL with a CSV file dataset here:
@@ -90,3 +94,5 @@ Now you can make queries against the dataset, for example:
 ```
 
 Please see [MiniQL](https://github.com/miniql/miniql) for more information on how to make queries.
+
+Don't forget to [star the repo](https://github.com/miniql/miniql) and [follow the developer on Twitter](https://twitter.com/ashleydavis75).
