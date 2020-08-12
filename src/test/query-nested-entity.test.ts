@@ -1,22 +1,22 @@
-import { createQueryResolver, IJsonResolverConfig } from "..";
+import { createQueryResolver, IQueryResolverConfig, IJsonFileConfig } from "..";
 
 describe("query nested entity", () => {
 
     it("can create function to retreive a nested entity", async ()  => {
 
-        const config: IJsonResolverConfig = {
-            movie: {
-                primaryKey: "name",
-                jsonFilePath: "movies.json",
-                nested: {
-                    director: {
-                        parentKey: "directorId",
+        const config: IQueryResolverConfig = {
+            entities: {
+                movie: {
+                    primaryKey: "name",
+                    nested: {
+                        director: {
+                            parentKey: "directorId",
+                        },
                     },
                 },
-            },
-            director: {
-                primaryKey: "id",
-                jsonFilePath: "directors.json",
+                director: {
+                    primaryKey: "id",
+                },
             },
         };
 
@@ -36,7 +36,12 @@ describe("query nested entity", () => {
             }
         }
 
-        const resolver = await createQueryResolver(config, loadTestData);
+        const jsonFiles: IJsonFileConfig = {
+            movie: "movies.json",
+            director: "directors.json",
+        };
+
+        const resolver = await createQueryResolver(config, jsonFiles, loadTestData);
         
         const parentEntity = {
             name: "The Bourne Identity",
@@ -44,28 +49,30 @@ describe("query nested entity", () => {
             directorId: "1234",
         };
 
-        const result = await resolver.get.movie.nested.director.invoke(parentEntity, {}, {});
+        const result = await resolver.get.movie.nested!.director.invoke(parentEntity, {}, {});
         expect(result).toEqual({
             id: "1234",
             name: "Doug Liman",
         });
     });
 
-    it("can create function to retreive a nested entities", async ()  => {
+    it("can create function to retreive multiple nested entities", async ()  => {
 
-        const config: IJsonResolverConfig = {
-            movie: {
-                primaryKey: "name",
-                jsonFilePath: "movies.json",
-                nested: {
-                    director: {
-                        foreignKey: "movie",
+        const config: IQueryResolverConfig = {
+            entities: {
+                movie: {
+                    primaryKey: "name",
+                    nested: {
+                        director: {
+                            multiple: true,
+                            parentKey: "name", //TODO: I kind of feel like this should be implied from the primaryKey.
+                            foreignKey: "movie",
+                        },
                     },
                 },
-            },
-            director: {
-                primaryKey: "name",
-                jsonFilePath: "directors.json",
+                director: {
+                    primaryKey: "name",
+                },
             },
         };
 
@@ -95,13 +102,18 @@ describe("query nested entity", () => {
             }
         }
 
-        const resolver = await createQueryResolver(config, loadTestData);
+        const jsonFiles: IJsonFileConfig = {
+            movie: "movies.json",
+            director: "directors.json",
+        };
+
+        const resolver = await createQueryResolver(config, jsonFiles, loadTestData);
         
         const parentEntity = { 
             name: "The Bourne Identity",
         };
 
-        const result = await resolver.get.movie.nested.director.invoke(parentEntity, {}, {});
+        const result = await resolver.get.movie.nested!.director.invoke(parentEntity, {}, {});
         expect(result).toEqual([ 
             {
                 name: "Doug Liman",

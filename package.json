@@ -1,6 +1,6 @@
 {
     "name": "@miniql/json",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A MiniQL query resolver that loads data from JSON files.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -40,6 +40,8 @@
     },
     "homepage": "https://github.com/miniql/miniql-json#readme",
     "dependencies": {
+        "@miniql/core-types": "0.0.1",
+        "@miniql/lazy": "0.0.2",
         "datakit": "^1.0.3"
     },
     "devDependencies": {

@@ -1,13 +1,14 @@
-import { createQueryResolver, IJsonResolverConfig } from "..";
+import { createQueryResolver, IQueryResolverConfig, IJsonFileConfig } from "..";
 
 describe("query entities", () => {
 
     it("can create resolver to retreive multiple entities", async ()  => {
 
-        const config: IJsonResolverConfig = {
-            movie: {
-                primaryKey: "name",
-                jsonFilePath: "movies.json",
+        const config: IQueryResolverConfig = {
+            entities: {
+                movie: {
+                    primaryKey: "name",
+                },
             },
         };
 
@@ -22,7 +23,11 @@ describe("query entities", () => {
             },
         ];
 
-        const resolver = await createQueryResolver(config, async (jsonFilePath: string) => testJsonData);
+        const jsonFiles: IJsonFileConfig = {
+            movie: "movies.json",
+        };
+
+        const resolver = await createQueryResolver(config, jsonFiles, async (jsonFilePath: string) => testJsonData);
         
         const result = await resolver.get.movie.invoke({}, {});
         expect(result).toEqual([
@@ -39,14 +44,14 @@ describe("query entities", () => {
 
     it("can create resolver for multiple entity types", async ()  => {
 
-        const config: IJsonResolverConfig = {
-            movie: {
-                primaryKey: "name",
-                jsonFilePath: "movies.json",
-            },
-            actor: {
-                primaryKey: "name",
-                jsonFilePath: "actors.json",
+        const config: IQueryResolverConfig = {
+            entities: {
+                movie: {
+                    primaryKey: "name",
+                },
+                actor: {
+                    primaryKey: "name",
+                },
             },
         };
 
@@ -82,7 +87,12 @@ describe("query entities", () => {
             }
         }
 
-        const resolver = await createQueryResolver(config, loadTestData);
+        const jsonFiles: IJsonFileConfig = {
+            movie: "movies.json",
+            actor: "actors.json",
+        };
+
+        const resolver = await createQueryResolver(config, jsonFiles, loadTestData);
 
         const movies = await resolver.get.movie.invoke({}, {});
         expect(movies).toEqual([
