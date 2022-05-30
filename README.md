@@ -96,4 +96,4 @@ Now you can make queries against the dataset, for example:
 
 Please see [MiniQL](https://github.com/miniql/miniql) for more information on how to make queries.
 
-Don't forget to [star the repo](https://github.com/miniql/miniql) and [follow the developer on Twitter](https://twitter.com/ashleydavis75).
+Don't forget to [star the repo](https://github.com/miniql/miniql) and [follow the developer on Twitter](https://twitter.com/codecapers).
